@@ -1,11 +1,11 @@
 # compareDEtools
 
+
 compareDEtools is a R package for comparing multiple DE methods with different conditions and datasets.
 
 ## Installation
 
 Open R program and type following commands in R console.
-
 
 ```R
 install.packages('devtools')
@@ -15,6 +15,7 @@ library(compareDEtools)
 ```
 
 ## Example Run
+
 
 Following codes are to generate synthetic data, run DE analysis tools and show results in boxplot
 ```R
@@ -34,13 +35,17 @@ performance_plot(working.dir=analysis.dir,figure.dir=figure.dir,fixedfold=F,simu
 ```
 
 
+
 ## User's Manual
+
 
 User's manual is available [here](https://choosealicense.com/licenses/gpl-2.0/)
 
 
 ## Contact: BuKyung Baik (back829@unist.ac.kr)
+
 Any feedback or comments are greatly appreciated!!
 
 ## License
+
 [GPL2.0](https://choosealicense.com/licenses/gpl-2.0/)
