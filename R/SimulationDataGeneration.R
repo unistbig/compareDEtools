@@ -65,7 +65,7 @@ generateDatasetParameter = function(){
   ###############################################
   #############bottomly###########################
   ################################################
-  load(system.file("extdata", "bottomly_eset.RData",package = "DEanalysis"))# Load Bottomly mouse RNA-seq data. 21 samples
+  load(system.file("extdata", "bottomly_eset.RData",package = "compareDEtools"))# Load Bottomly mouse RNA-seq data. 21 samples
   b_count<-exprs(bottomly.eset) # RNA-seq read count data
   strain<-pData(bottomly.eset)[,'strain']
   index.C=which(strain=='C57BL/6J') # C57BL/6J sample index
@@ -118,7 +118,7 @@ generateDatasetParameter = function(){
   ###############################################
   #############   SEQC   ########################
   ###############################################
-  SEQC<-system.file("extdata", "GSE49712_HTSeq.txt",package = "DEanalysis")
+  SEQC<-system.file("extdata", "GSE49712_HTSeq.txt",package = "compareDEtools")
   s_count<-read.table(SEQC, header = T)
   s_count <- s_count[grep('no_feature|ambiguous|too_low_aQual|not_aligned|alignment_not_unique' ,
                       rownames(s_count), invert=TRUE),]

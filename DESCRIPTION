@@ -1,7 +1,7 @@
 Package: compareDEtools
 Type: Package
 Title: Comparison of multiple DE analysis methods in R
-Version: 0.1.0
+Version: 0.1.1
 Author: BuKyung Baik
 Maintainer: BuKyung Baik <back829@unist.ac.kr>
 Description: Multiple DE analysis methods (baySeq, DESeq, DESeq2, edgeR, limma, PoissonSeq, ROTS, SAMseq, etc) are compared with their performances. Three different datasets (KIRC, Bottomly and SEQC) and synthetic data based on datasets are analyzed. Multiple test conditions are provided with varying parameters like samples, DE proportion, DE balance, etc.

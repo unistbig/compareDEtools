@@ -222,7 +222,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$edgeR[[i]]=edgeR.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$edgeR$result.extent,
-               Rmdfunction = "DEanalysis::edgeR.exact.createRmd", output.directory = output.dir,
+               Rmdfunction = "compareDEtools::edgeR.exact.createRmd", output.directory = output.dir,
                norm.method = para$edgeR$norm.method, trend.method = para$edgeR$trend.method, disp.type = para$edgeR$disp.type) # run edgeR exact test
   }
   if('edgeR.ql' %in% AnalysisMethods){
@@ -231,7 +231,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$edgeR.ql[[i]]=edgeR.ql.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$edgeR.ql$result.extent,
-               Rmdfunction = 'DEanalysis::edgeR.GLMQL.createRmd', norm.method=para$edgeR.ql$norm.method,
+               Rmdfunction = 'compareDEtools::edgeR.GLMQL.createRmd', norm.method=para$edgeR.ql$norm.method,
                disp.estimation=para$edgeR.ql$disp.estimation, output.directory = output.dir) #run edgeR quasi-likelihood test
   }
   if('edgeR.rb' %in% AnalysisMethods){
@@ -240,7 +240,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$edgeR.rb[[i]]=edgeR.rb.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$edgeR.rb$result.extent,
-               Rmdfunction = 'DEanalysis::edgeR.GLM.Robust.createRmd', norm.method=para$edgeR.rb$norm.method,
+               Rmdfunction = 'compareDEtools::edgeR.GLM.Robust.createRmd', norm.method=para$edgeR.rb$norm.method,
                disp.estimation=para$edgeR.rb$disp.estimation, output.directory = output.dir) #run edgeR GLM Robust
   }
   if('DESeq.pc' %in% AnalysisMethods){
@@ -249,7 +249,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$DESeq.pc[[i]]=DESeq.pc.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$DESeq.pc$result.extent,
-               Rmdfunction = "DEanalysis::DESeq.nbinom.createRmd", output.directory = output.dir,
+               Rmdfunction = "compareDEtools::DESeq.nbinom.createRmd", output.directory = output.dir,
                sharing.mode = para$DESeq.pc$sharing.mode, disp.method = para$DESeq.pc$disp.method,
                fit.type = para$DESeq.pc$fit.type)  # run DESeq.pc
   }
@@ -259,7 +259,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$DESeq2[[i]]=DESeq2.parameters[[i]]
     }
     runDiffExp(data.file=obj, result.extent = para$DESeq2$result.extent,
-               Rmdfunction = "DEanalysis::DESeq2.createRmd", output.directory = output.dir,
+               Rmdfunction = "compareDEtools::DESeq2.createRmd", output.directory = output.dir,
                fit.type = para$DESeq2$fit.type, test=para$DESeq2$test) # run DESeq2
   }
   if('voom.tmm' %in% AnalysisMethods){
@@ -268,7 +268,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$voom.tmm[[i]]=voom.tmm.parameters[[i]]
     }
     runDiffExp(data.file=obj, result.extent = para$voom.tmm$result.extent,
-               Rmdfunction = "DEanalysis::voom.limma.createRmd", output.directory = output.dir,
+               Rmdfunction = "compareDEtools::voom.limma.createRmd", output.directory = output.dir,
                norm.method = para$voom.tmm$norm.method) # run voom limma (TMM normalization)
   }
   if('voom.qn' %in% AnalysisMethods){
@@ -277,7 +277,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$voom.qn[[i]]=voom.qn.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$voom.qn$result.extent,
-               Rmdfunction = "DEanalysis::voom.qn.limma.createRmd", output.directory = output.dir,
+               Rmdfunction = "compareDEtools::voom.qn.limma.createRmd", output.directory = output.dir,
                norm.method = para$voom.qn$norm.method) # run voom limma (quantile normalization)
   }
   if('voom.sw' %in% AnalysisMethods){
@@ -286,7 +286,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$voom.sw[[i]]=voom.sw.parameters[[i]]
     }
     runDiffExp(data.file=obj, result.extent = para$voom.sw$result.extent,
-               Rmdfunction = 'DEanalysis::voom.sw.limma.createRmd', output.directory = output.dir,
+               Rmdfunction = 'compareDEtools::voom.sw.limma.createRmd', output.directory = output.dir,
                norm.method = para$voom.sw$norm.method) # run voom limma(quality weighted)
   }
   if('ROTS' %in% AnalysisMethods){
@@ -295,7 +295,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$ROTS[[i]]=ROTS.parameters[[i]]
     }
     runDiffExp(data.file=obj, result.extent = para$ROTS$result.extent,
-               Rmdfunction = "DEanalysis::ROTS.createRmd", output.directory = output.dir,
+               Rmdfunction = "compareDEtools::ROTS.createRmd", output.directory = output.dir,
                normalize = para$ROTS$normalize, B = para$ROTS$B,
                K = para$ROTS$K, log = para$ROTS$log)  # run ROTS
   }
@@ -305,7 +305,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$BaySeq[[i]]=BaySeq.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$BaySeq$result.extent,
-               Rmdfunction = "DEanalysis::baySeq.createRmd", output.directory = output.dir,
+               Rmdfunction = "compareDEtools::baySeq.createRmd", output.directory = output.dir,
                norm.method = para$BaySeq$norm.method, equaldisp = para$BaySeq$equaldisp) # run Bayseq
   }
   if('BaySeq.qn' %in% AnalysisMethods){
@@ -314,7 +314,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$BaySeq.qn[[i]]=BaySeq.qn.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$BaySeq.qn$result.extent,
-               Rmdfunction = "DEanalysis::baySeq.createRmd", output.directory = output.dir,
+               Rmdfunction = "compareDEtools::baySeq.createRmd", output.directory = output.dir,
                norm.method = para$BaySeq.qn$norm.method, equaldisp = para$BaySeq.qn$equaldisp) # run Bayseq
   }
   if('PoissonSeq' %in% AnalysisMethods){
@@ -323,7 +323,7 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$PoissonSeq[[i]]=PoissonSeq.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$PoissonSeq$result.extent,
-               Rmdfunction = "DEanalysis::PoissonSeq.createRmd", output.directory = output.dir) # run PoissionSeq
+               Rmdfunction = "compareDEtools::PoissonSeq.createRmd", output.directory = output.dir) # run PoissionSeq
   }
   if('SAMseq' %in% AnalysisMethods){
     SAMseq.parameters=list(result.extent = "SAMseq")
@@ -331,6 +331,6 @@ simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
       para$SAMseq[[i]]=SAMseq.parameters[[i]]
     }
     runDiffExp(data.file = obj, result.extent = para$SAMseq$result.extent,
-               Rmdfunction = "DEanalysis::SAMseq.createRmd", output.directory = output.dir) # run SAMseq
+               Rmdfunction = "compareDEtools::SAMseq.createRmd", output.directory = output.dir) # run SAMseq
   }
 }

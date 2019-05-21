@@ -19,7 +19,7 @@ correlation_heatmap<-function(working.dir, figure.dir ,simul.data, nsample, topg
   }else if(simul.data=='Bottomly'){
     nvar=8550
   }
-  DEmethods<-unlist(sapply(AnalysisMethods,DEanalysis::select_tool),use.names = FALSE)
+  DEmethods<-unlist(sapply(AnalysisMethods,compareDEtools::select_tool),use.names = FALSE)
   whole_corr_matrix=array(rep(0,length(rep*length(AnalysisMethods)*length(AnalysisMethods))) ,dim=c(rep,length(AnalysisMethods),length(AnalysisMethods)))
 
   for(k in 1:rep){
