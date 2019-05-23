@@ -1,28 +1,30 @@
-### baySeq
-Data file: /home/node01/test/example/FigS8/Dataset/mKdB_D_1500DE_3spc_upFrac_0.5_rep_1.rds
-```{r, echo = TRUE, eval = TRUE, include = TRUE, message = TRUE, error = TRUE, warning = TRUE}
-require(baySeq)
+### edgeR
+Data file: ~/test/example/Fig1/Dataset/SEQC_5spc_rep_1.rds
+```{r, echo = TRUE, eval = TRUE, include = TRUE, message = FALSE, error = TRUE, warning = TRUE}
 require(edgeR)
-cdata <- readRDS('/home/node01/test/example/FigS8/Dataset/mKdB_D_1500DE_3spc_upFrac_0.5_rep_1.rds')
+cdata <- readRDS('~/test/example/Fig1/Dataset/SEQC_5spc_rep_1.rds')
 is.valid <- check_compData(cdata)
 if (!(is.valid == TRUE)) stop('Not a valid compData object.')
-baySeq.cd <- new('countData', data = count.matrix(cdata), replicates = sample.annotations(cdata)$condition, groups = list(NDE = rep(1, length(sample.annotations(cdata)$condition)), DE = sample.annotations(cdata)$condition))
-libsizes(baySeq.cd) <- baySeq::getLibsizes(baySeq.cd, estimationType = 'edgeR')
-baySeq.cd <- baySeq::getPriors.NB(baySeq.cd, samplesize =5000, equalDispersions = TRUE, estimation = 'QL', cl = NULL)
-baySeq.cd <- baySeq::getLikelihoods(baySeq.cd, prs = c(0.5, 0.5), pET = 'BIC', cl = NULL)
-baySeq.cd@annotation <- data.frame(rowID=rownames(baySeq.cd@data),row.names=rownames(baySeq.cd@data))
-baySeq.posteriors.DE <- exp(baySeq.cd@posteriors)[, 'DE']
-baySeq.FDR <- baySeq::topCounts(baySeq.cd, group = 'DE', FDR = 1)$FDR.DE[match(rownames(count.matrix(cdata)), rownames(baySeq::topCounts(baySeq.cd, group = 'DE', FDR = 1)))]
-baySeq.score <- 1 - baySeq.FDR
-result.table <- data.frame('FDR' = baySeq.FDR, 'score' = baySeq.score, 'posterior.DE' = baySeq.posteriors.DE)
+edgeR.dgelist <- edgeR::DGEList(counts = count.matrix(cdata), group = factor(sample.annotations(cdata)$condition))
+edgeR.dgelist <- edgeR::calcNormFactors(edgeR.dgelist, method = 'TMM')
+edgeR.dgelist <- edgeR::estimateCommonDisp(edgeR.dgelist)
+edgeR.dgelist <- edgeR::estimateTagwiseDisp(edgeR.dgelist, trend = 'movingave')
+dispersion.S1 <- edgeR.dgelist$tagwise.dispersion
+dispersion.S2 <- edgeR.dgelist$tagwise.dispersion
+edgeR.exacttest <- edgeR::exactTest(edgeR.dgelist)
+edgeR.pvalues <- edgeR.exacttest$table$PValue
+edgeR.adjpvalues <- p.adjust(edgeR.pvalues, method = 'BH')
+edgeR.logFC <- edgeR.exacttest$table$logFC
+edgeR.score <- 1 - edgeR.pvalues
+result.table <- data.frame('pvalue' = edgeR.pvalues, 'adjpvalue' = edgeR.adjpvalues, 'logFC' = edgeR.logFC, 'score' = edgeR.score, 'dispersion.S1' = dispersion.S1, 'dispersion.S2' = dispersion.S2)
 rownames(result.table) <- rownames(count.matrix(cdata))
 result.table(cdata) <- result.table
-package.version(cdata) <- paste('baySeq,', packageVersion('baySeq'))
+package.version(cdata) <- paste('edgeR,', packageVersion('edgeR'))
 analysis.date(cdata) <- date()
-method.names(cdata) <- list('short.name' = 'baySeq', 'full.name' = 'baySeq.2.17.0.edgeR.equaldisp.samplesize5000.QL.BIC')
+method.names(cdata) <- list('short.name' = 'edgeR', 'full.name' = 'edgeR.3.25.10.exact.TMM.movingave.tagwise')
 is.valid <- check_compData_results(cdata)
 if (!(is.valid == TRUE)) stop('Not a valid compData result object.')
-saveRDS(cdata, '/home/node01/test/example/FigS8/Analysis/mKdB_D_1500DE_3spc_upFrac_0.5_rep_1_BaySeq.rds')
+saveRDS(cdata, '/home/node01/test/example/Fig1/Analysis/SEQC_5spc_rep_1_edgeR.exact.rds')
 print(paste('Unique data set ID:', info.parameters(cdata)$uID))
 sessionInfo()
 ```
