@@ -12,6 +12,8 @@
 #' @param B An integer specifying the number of bootstrap and permutation resamplings (default 1000).
 #' @param K An integer indicating the largest top list size considered. If no value is given, 1/4 of the features are used.
 #' @param log A logical parameter indicating whether input data is log2 scaled. Choices are as for the method argument of ROTS function. This information is only used to calculate log fold change.
+#' @references
+#' L. L. Elo, S. Filen, R. Lahesmaa and T. Aittokallio: Reproducibility-optimized test statistic for ranking genes in microarray studies. IEEE/ACM Transactions on Computational Biology and Bioinformatics 5: 423–431, 2008.
 #' @export
 #' @author BuKyung Baik
 #' @return The function generates a \code{.Rmd} file containing the code for performing the differential expression analysis. This file can be executed using e.g. the \code{knitr} package.

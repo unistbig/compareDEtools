@@ -8,7 +8,6 @@ Description: Multiple DE analysis methods (baySeq, DESeq, DESeq2, edgeR, limma, 
 Imports: baySeq, Biobase, compcodeR, DESeq, DESeq2, edgeR, gplots,
         gtools, ggplot2, graphics, impute, limma, PoissonSeq, reshape,
         RColorBrewer, ROCR, ROTS, samr, SimSeq, statmod, XML
-Encoding: UTF-8
 License: GPL (>= 2)
 LazyData: true
 RoxygenNote: 6.1.1
