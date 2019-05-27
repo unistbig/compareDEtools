@@ -55,40 +55,25 @@ select_color = function(method_color)
 #' make synthetic data plot function
 #' @param working.dir Input file location
 #' @param figure.dir Figure save location
+#' @param fixedfold A logical indicating whether analyzed dataset used random fold changes following exponential distribution or fixed fold change values. Possible values are TRUE or FALSE. If fixedfold is TRUE, fraction.upregulated is automatically fixed to 0.67.
 #' @param simul.data Type of dataset (e.g. KIRC, Bottomly, mBdK and mKdB)
-#' @param fixedfold A logical indicating whether simulation data is made from fixed fold to imitate SEQC counts data. Possible values are TRUE or FALSE. If fixedfold is TRUE, fraction.upregulated is automatically fixed to 0.67.
-#' @param rep Number of replication each test contain.
-#' @param nsample Number of samples. Input as a numeric vector.
-#' @param nvar Number of total gene making synthetic data.
-#' @param nDE Number of generated DE genes in the synthetic data.
-#' @param fraction.upregulated proportion of upregulated DE genes in the synthetic data (e.g. 0.5, 0.7 and 0.9)
-#' @param disp.Type How is the dispersion assumed for each condition. Possible values are 'same' and 'different'.
-#' @param mode Test conditions we used for simulation data generation. Input as a character vector.
+#' @param rep An integer specifying iterations DE analysis methods run for each condition.
+#' @param nsample An integer vector indicating number of samples in each sample group.
+#' @param nvar An integer indicating how many genes are in the analyzed dataset.
+#' @param nDE An integer vector indicating how many DE genes are in the analyzed dataset.
+#' @param fraction.upregulated A numeric vector specifying proportions of upregulated DE genes among total DE genes in the analzyed dataset. (e.g. 0.5, 0.7 and 0.9)
+#' @param disp.Type A vector indicating how is the dispersion parameter assumed to be for each sample group in the analzyed dataset. Possible values are 'same' and 'different'.
+#' @param mode A character specifying a test condition used for analyzed dataset.
 #' "D" for basic simulation (not adding outliers).
 #' "R" for adding 5% of random outlier.
 #' "OS" for adding outlier sample to each sample group.
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
-#' @param rowType Type of measures. Combination of AUC, TPR and trueFDR. (e.g. c('AUC','TPR'))
-#' @param AnalysisMethods DEmethods used for figures. Input as character vectors
+#' @param rowType A character vector indicating which results are shown in performance plot. Combination of AUC, TPR and trueFDR. (e.g. c('AUC','TPR'))
+#' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn','PoissonSeq','SAMseq')
 #' @export
-performance_plot = function(working.dir, figure.dir, simul.data, fixedfold=FALSE, rep, nsample, nvar, nDE, fraction.upregulated, disp.Type, mode, rowType, AnalysisMethods){
+performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data, rep, nsample, nvar, nDE, fraction.upregulated, disp.Type, mode, rowType, AnalysisMethods){
 
-  # working.dir='/home/node01/test/OD/'
-  # figure.dir='/home/node01/test/fig/'
-  # simul.data='KIRC'
-  # rep=1
-  # nsample=c(3)
-  # nvar=100
-  # nDE=30
-  # fraction.upregulated = 0.5
-  # disp.Type = 'same'
-  # mode='R'
-  # AnalysisMethods=AnalysisMethods
-  #
-  # for( i in AnalysisMethods){
-  #   print(select_tool(i))
-  # }
 
   if(length(simul.data)!=1){stop('simul.data must have one element.')}
   if(length(mode)!=1){stop('mode must have one element.')}
@@ -244,15 +229,16 @@ performance_plot = function(working.dir, figure.dir, simul.data, fixedfold=FALSE
 #' make synthetic data False Positive count plot function
 #' @param working.dir Input file location
 #' @param figure.dir Figure save location
-#' @param simul.data Type of dataset (e.g. KIRC, Bottomly, mBdK and mKdB)
-#' @param rep Number of replication each test contain.
-#' @param nsample Number of samples. Input as a numeric vector.
-#' @param disp.Type How is the dispersion assumed for each condition. Possible values are 'same' and 'different'.
-#' @param modes Test conditions we used for simulation data generation. Input as a character vector.
+#' @param simul.data A character parameter indicating which given dataset analyzed dataset is based on. ‘KIRC’, ‘Bottomly’, ‘mBdK’ and ‘mKdB’ are available.
+#' @param rep An integer specifying iterations DE analysis methods run for each condition.
+#' @param nsample An integer vector indicating number of samples in each sample group.
+#' @param disp.Type A vector indicating how is the dispersion parameter assumed to be for each sample group in the analzyed dataset. Possible values are 'same' and 'different'.
+#' @param modes A character specifying a test condition used for analyzed dataset.
 #' "D" for basic simulation (not adding outliers).
 #' "R" for adding 5% of random outlier.
-#' "OS"for adding outlier sample to each sample group.
-#' @param AnalysisMethods DEmethods used for figures. Input as character vectors
+#' "OS" for adding outlier sample to each sample group.
+#' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
+#' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
 #' @export
 fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsample, disp.Type, modes, AnalysisMethods){
@@ -362,11 +348,11 @@ fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsampl
 #' make realdata plot function
 #' @param working.dir Input file location
 #' @param figure.dir Figure save location
-#' @param simul.data Type of dataset (e.g. KIRC ,Bottomly and SEQC)
-#' @param rep Number of replication each test contain.
-#' @param nsample Number of samples. Input as a numeric vector.
-#' @param rowType Type of measures. Combination of DetectedDE and FPC. (e.g. c('DetectedDE','FP.count'))
-#' @param AnalysisMethods DEmethods used for figures. Input as character vectors
+#' @param simul.data A character parameter indicating which given dataset analyzed dataset is based on. ‘KIRC’, ‘Bottomly’ and ‘SEQC’ are available.
+#' @param rep An integer specifying iterations DE analysis methods run for each condition.
+#' @param nsample An integer vector indicating number of samples in each sample group.
+#' @param rowType A character vector indicating which results are shown in performance plot. Combination of DetectedDE and FPC. (e.g. c('DetectedDE','FP.count')) If simul.data is 'SEQC', only combination of 'AUC', 'TPR' and 'trueFDR' is available.
+#' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
 #' @export
 performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep, nsample, rowType, AnalysisMethods){

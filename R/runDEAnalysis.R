@@ -1,9 +1,9 @@
 #' Generation of Synthetic simulation files
 #' @param working.dir Input file location
 #' @param data.types A vector parameter indicating types of dataset (e.g. data.type = c(KIRC, Bottomly, mBdK and mKdB))
-#' @param fixedfold A logical indicating whether simulation data is made from fixed fold to imitate SEQC counts data. Possible values are TRUE or FALSE. If fixedfold is TRUE, fraction of upregulated genes is automatically fixed to 0.67.
-#' @param rep An integer specifying iterations each test perform.
-#' @param nsample A vector indicating number of samples.
+#' @param fixedfold A logical indicating whether simulation data is made from fixed fold to imitate SEQC counts data. If fixedfold is TRUE, fraction of upregulated genes is automatically fixed to 0.67.
+#' @param rep An integer specifying how many datasets will be generated for each condition to run DE analysis methods.
+#' @param nsample An integer vector indicating how many samples are in each sample group.
 #' @param nvar An integer indicating the number of total gene in the synthetic data.
 #' @param nDE A vector indicating number of generated DE genes in the synthetic data.
 #' @param fraction.upregulated A vector specifying proportion of upregulated DE genes in the synthetic data. Default value is 0.5. (e.g. fraction.upregulated = c(0.5, 0.7 and 0.9)) This vector is available only if fixed fold is FALSE.
@@ -12,6 +12,7 @@
 #' "D" for basic simulation (not adding outliers).
 #' "R" for adding 5% of random outlier.
 #' "OS"for adding outlier sample to each sample group.
+#' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @export
 GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, rep, nsample, nvar, nDE, fraction.upregulated = 0.5 , disp.Types, modes){
   dataset.parameters<-generateDatasetParameter()
@@ -51,10 +52,10 @@ GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, 
 
 #' Generation of Real simulation files
 #' @param working.dir Input file location
-#' @param fpc A logical indicating whether simulation data is made from single sample condition(e.g. normal) to calculate False positive counts. Possible values are TRUE or FALSE.
+#' @param fpc A logical indicating whether simulation data is generated with samples from single sample group(e.g. normal) to calculate False positive counts. Possible values are TRUE and FALSE.
 #' @param data.types A vector indicating types of dataset (e.g. data.types = c(KIRC, Bottomly))
-#' @param rep An integer specifying iterations each test perform.
-#' @param nsample A vector indicating number of samples. Possible values can be 1~72 for KIRC, 1~10 for Bottomly and 1~5 for SEQC, maximum values decreased to 36 for KIRC and 5 for Bottomly if fpc is true.
+#' @param rep An integer specifying how many datasets will be generated for each condition to run DE analysis methods.
+#' @param nsample A vector indicating number of samples in each sample group. Possible values can be 1~72 for KIRC, 1~10 for Bottomly and 1~5 for SEQC, maximum values decreased to 36 for KIRC and 5 for Bottomly if fpc is true.
 #' @export
 GenerateRealSimulation<-function(working.dir, fpc=FALSE, data.types, rep, nsample){
   dataset.parameters<-generateDatasetParameter()
@@ -79,23 +80,23 @@ GenerateRealSimulation<-function(working.dir, fpc=FALSE, data.types, rep, nsampl
 #' Run Analysismethods
 #' @param working.dir Input file location
 #' @param output.dir Result file location
-#' @param real A logical indicating whether this analysis is for synthetic data or real data. Possible values are TRUE or FALSE.
-#' @param fpc A logical indicating whether simulation data is made from a single sample group (e.g. normal) to calculate False positive counts. Possible values are TRUE or FALSE. Only used for real data analysis.
-#' @param data.types A vector indicating types of dataset (e.g. data.types = c(KIRC, Bottomly, mBdK and mKdB))
-#' @param fixedfold A logical indicating whether simulation data is made from fixed fold to imitate SEQC counts data. Possible values are TRUE or FALSE. Only applied if this simulation is synthetic data simulation.
-#' @param rep An integer specifying iterations each test perform.
-#' @param nsample A vector indicating number of samples.
-#' @param nDE A vector indicating number of generated DE genes in the synthetic data.
-#' @param fraction.upregulated A vector specifying proportion of upregulated DE genes in the synthetic data. Default value is 0.5. (e.g. fraction.upregulated = c(0.5, 0.7 and 0.9)) This vector is available only if fixed fold is FALSE.
-#' @param disp.Types A vector indicating how is the dispersion parameter assumed to be for each condition to make a synthetic data. Possible values are 'same' and 'different'.
+#' @param real A logical indicating whether this analysis is for synthetic data or real data.
+#' @param fpc A logical indicating whether simulation data is made from a single sample group (e.g. normal) to calculate False positive counts. Only used for real data analysis.
+#' @param data.types A character vector indicating which given dataset our target dataset is based on. ‘KIRC’, ‘Bottomly’, ‘mBdK’ and ‘mKdB’ are available for synthetic datasets and ‘KIRC’, ‘Bottomly’ and ‘SEQC’ are available for real datasets.
+#' @param fixedfold A logical indicating whether simulation data is made from fixed fold to imitate SEQC counts data. Only applied if this simulation is synthetic data simulation.
+#' @param rep An integer vector indicating how many samples are in each dataset.
+#' @param nsample An integer vector indicating number of samples in each sample group.
+#' @param nDE An integer vector indicating number of generated DE genes in the synthetic data.
+#' @param fraction.upregulated A numeric vector specifying proportions of upregulated DE genes among total DE genes in the generated dataset. Default value is 0.5. (e.g. fraction.upregulated = c(0.5, 0.7 and 0.9)) This vector is available only if fixed fold is FALSE.
+#' @param disp.Types A vector indicating how is the dispersion parameter assumed to be for each sample group to make a synthetic data. Possible values are 'same' and 'different'.
 #' @param modes A vector specifying test conditions we used for simulation data generation.
 #' "D" for basic simulation (not adding outliers).
 #' "R" for adding 5% of random outlier.
 #' "OS"for adding outlier sample to each sample group.
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
-#' @param AnalysisMethods A vector specifying DEmethods used for the analysis.
+#' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn,'PoissonSeq','SAMseq')
-#' @param para A list parameter consists of multiple lists corresponding each method. Each method list contains multiple parameters to run each DE analysis method.
+#' @param para A list parameter indicating the parameters to run each DE analysis methods. It contains lists corresponding each method and each list contain the parameters for each DE analysis methods. The analysis methods not in the para list will be run with default parameters. (e.g. para=list(ROTS=list(transformation=FALSE, normalize=FALSE)))
 #' @export
 runSimulationAnalysis<-function(working.dir, output.dir, real=FALSE, fpc=FALSE, data.types, fixedfold=FALSE, rep, nsample, nDE, fraction.upregulated, disp.Types, modes, AnalysisMethods, para=list()){
 
@@ -211,9 +212,9 @@ runSimulationAnalysis<-function(working.dir, output.dir, real=FALSE, fpc=FALSE, 
 #' Run Analysismethods
 #' @param obj Name and place of input files.
 #' @param output.dir Result file save location.
-#' @param AnalysisMethods DEmethods used for figures. Input as character vectors
+#' @param AnalysisMethods DE methods used for analysis. Input as character vectors
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn,'PoissonSeq','SAMseq')
-#' @param para A list parameter consists of multiple lists corresponding each method. Each method list contains multiple parameters to run each DE analysis method.
+#' @param para A list parameter indicating the parameters to run each DE analysis methods. It contains lists corresponding each method and each list contain the parameters for each DE analysis methods. The analysis methods not in the para list will be run with default parameters. (e.g. para=list(ROTS=list(transformation=FALSE, normalize=FALSE)))
 #' @export
 simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
   if('edgeR' %in% AnalysisMethods){

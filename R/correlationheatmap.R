@@ -2,18 +2,13 @@
 #' @param working.dir Input file location.
 #' @param figure.dir Figure save location.
 #' @param simul.data Type of dataset(e.g. KIRC and Bottomly)
-#' @param nsample Number of samples. Input as a number.
-#' @param topgenes Number of top significant genes obtained from each methods to estimate rank correlation.
-#' @param AnalysisMethods DEmethods used for figures. Input as a character vector. (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
-#' @param rep Number of replication each test contain.
+#' @param nsample An integer vector indicating number of samples in each sample group.
+#' @param topgenes An integer indicating number of top significant genes obtained from each methods to estimate rank correlation.
+#' @param AnalysisMethods A character vector specifying DE methods used for the analysis. (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
+#' @param rep An integer specifying iterations DE analysis methods run for each condition.
 #' @export
 correlation_heatmap<-function(working.dir, figure.dir ,simul.data, nsample, topgenes, AnalysisMethods, rep){
-  # working.dir='/home/node01/test/real/'
-  # figure.dir='/home/node01/test/fig/'
-  # simul.data='KIRC'
-  # nsample=5
-  # AnalysisMethods=AnalysisMethods
-  # rep=1
+
   if(simul.data=='KIRC'){
     nvar=16621
   }else if(simul.data=='Bottomly'){
