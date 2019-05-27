@@ -42,7 +42,7 @@ performance_plot(working.dir=analysis.dir,figure.dir=figure.dir,fixedfold=F,simu
 ## User's Manual
 
 
-User's manual will be available here(not updated)
+User's manual will be available [here](https://github.com/unistbig/compareDEtools/blob/master/compareDEtools_manual_v.0.0.1.docx)
 
 
 ## Contact: BuKyung Baik (back829@unist.ac.kr)
