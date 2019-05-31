@@ -203,9 +203,6 @@ SyntheticDataSimulation = function(simul.data, dataset, fixedfold=FALSE, samples
 
   if(n.diffexp!=0){
     if(fixedfold){
-      if(n.diffexp%%3!=0){
-        stop('Simulation with fixed fold must contain 3*n DE genes.')
-      }
       if(simul.data!='KIRC'){
         stop('Simulation with fixed fold must be based on KIRC dataset.')
       }
