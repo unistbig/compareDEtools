@@ -323,7 +323,7 @@ fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsampl
                         values = tc[order(ts)])
 
   gline = gbase
-  tt = paste(simul.data,' / False Positive Counts /',disp.Type, ' dispersion ' ,sep="")
+  tt = paste(simul.data,' / False Positive Counts / ',disp.Type, ' dispersion ' ,sep="")
   print(gline+aes(x=Methods)+labs(x='Methods', y='False Positive counts')+ggtitle(tt))
   figurename=gsub(pattern = " / ", replacement = "_", x = tt)
   figurename=paste(figurename,".pdf",sep = "")
