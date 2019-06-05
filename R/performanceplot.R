@@ -70,7 +70,7 @@ select_color = function(method_color)
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @param rowType A character vector indicating which results are shown in performance plot. Combination of AUC, TPR and trueFDR. (e.g. c('AUC','TPR'))
 #' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
-#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn','PoissonSeq','SAMseq')
+#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn','PoissonSeq','SAMseq')
 #' @export
 performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data, rep, nsample, nvar, nDE, fraction.upregulated, disp.Type, mode, rowType, AnalysisMethods){
 
@@ -239,7 +239,7 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
 #' "OS" for adding outlier sample to each sample group.
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
-#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
+#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
 #' @export
 fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsample, disp.Type, modes, AnalysisMethods){
 
@@ -353,7 +353,7 @@ fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsampl
 #' @param nsample An integer vector indicating number of samples in each sample group.
 #' @param rowType A character vector indicating which results are shown in performance plot. Combination of DetectedDE and FPC. (e.g. c('DetectedDE','FP.count')) If simul.data is 'SEQC', only combination of 'AUC', 'TPR' and 'trueFDR' is available.
 #' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
-#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
+#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
 #' @export
 performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep, nsample, rowType, AnalysisMethods){
 

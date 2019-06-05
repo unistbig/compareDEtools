@@ -95,7 +95,7 @@ GenerateRealSimulation<-function(working.dir, fpc=FALSE, data.types, rep, nsampl
 #' "OS"for adding outlier sample to each sample group.
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
-#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn,'PoissonSeq','SAMseq')
+#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn,'PoissonSeq','SAMseq')
 #' @param para A list parameter indicating the parameters to run each DE analysis methods. It contains lists corresponding each method and each list contain the parameters for each DE analysis methods. The analysis methods not in the para list will be run with default parameters. (e.g. para=list(ROTS=list(transformation=FALSE, normalize=FALSE)))
 #' @export
 runSimulationAnalysis<-function(working.dir, output.dir, real=FALSE, fpc=FALSE, data.types, fixedfold=FALSE, rep, nsample, nDE, fraction.upregulated, disp.Types, modes, AnalysisMethods, para=list()){
@@ -213,7 +213,7 @@ runSimulationAnalysis<-function(working.dir, output.dir, real=FALSE, fpc=FALSE, 
 #' @param obj Name and place of input files.
 #' @param output.dir Result file save location.
 #' @param AnalysisMethods DE methods used for analysis. Input as character vectors
-#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn,'PoissonSeq','SAMseq')
+#' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn,'PoissonSeq','SAMseq')
 #' @param para A list parameter indicating the parameters to run each DE analysis methods. It contains lists corresponding each method and each list contain the parameters for each DE analysis methods. The analysis methods not in the para list will be run with default parameters. (e.g. para=list(ROTS=list(transformation=FALSE, normalize=FALSE)))
 #' @export
 simul_methods=function(obj,output.dir, AnalysisMethods, para=list()){
