@@ -243,14 +243,6 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
 #' @export
 fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsample, disp.Type, modes, AnalysisMethods){
 
-  # working.dir = "/home/node01/test/OD/"
-  # figure.dir = "/home/node01/test/fig/"
-  # simul.data = "KIRC"
-  # rep = 1
-  # nsample = c(3, 10)
-  # disp.Type = "same"
-  # modes = "R"
-  # AnalysisMethods = AnalysisMethods
   if(length(simul.data)!=1){stop('simul.data must have one element.')}
   if(length(disp.Type)!=1){stop('disp.Type must have one element.')}
 
@@ -331,7 +323,7 @@ fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsampl
                         values = tc[order(ts)])
 
   gline = gbase
-  tt = paste(simul.data,' / ',disp.Type, ' dispersion ' ,sep="")
+  tt = paste(simul.data,' / False Positive Counts /',disp.Type, ' dispersion ' ,sep="")
   print(gline+aes(x=Methods)+labs(x='Methods', y='False Positive counts')+ggtitle(tt))
   figurename=gsub(pattern = " / ", replacement = "_", x = tt)
   figurename=paste(figurename,".pdf",sep = "")
