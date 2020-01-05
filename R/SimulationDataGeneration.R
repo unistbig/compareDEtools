@@ -151,6 +151,7 @@ generateDatasetParameter = function(){
 #' "D" for basic simulation (not adding outliers).
 #' "R" for adding 5% of random outlier.
 #' "OS" for adding outlier sample to each sample group.
+#' @param RO.prop An integer specifying random outlier proportion percentage that we generate dataset with.
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @param dataset.parameters A list containing estimated mean and dispersion parameters and filtered count from original count dataset.
 #' @export

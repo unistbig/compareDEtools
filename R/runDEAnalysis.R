@@ -14,8 +14,9 @@
 #' "R" for adding 5% of random outlier.
 #' "OS"for adding outlier sample to each sample group.
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
+#' @param RO.prop An integer specifying random outlier proportion percentage that we generate dataset with.
 #' @export
-GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, rep.start=1, rep.end, nsample, nvar, nDE, fraction.upregulated = 0.5 , disp.Types, modes){
+GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, rep.start=1, rep.end, nsample, nvar, nDE, fraction.upregulated = 0.5 , disp.Types, modes, RO.prop=5){
   dataset.parameters<-generateDatasetParameter()
   for(simul.data in data.types){
     for(mode in modes){
@@ -31,16 +32,16 @@ GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, 
               if(nde==0){
                 SyntheticDataSimulation(simul.data = simul.data, dataset = paste(working.dir,datahead,"0DE_",s,"spc_rep_",i,'.rds',sep=""),
                                         fixedfold = fixedfold, n.var = nvar, samples.per.cond = s, n.diffexp = 0,
-                                        fraction.upregulated = 0, dispType=disp.Type, mode = mode, dataset.parameters = dataset.parameters)
+                                        fraction.upregulated = 0, dispType=disp.Type, mode = mode, RO.prop=RO.prop, dataset.parameters = dataset.parameters)
               }else if(fixedfold){
                 SyntheticDataSimulation(simul.data = simul.data, dataset = paste(working.dir,datahead, nde, "DE_",s,"spc_fixedfold_upFrac_0.67_rep_",i,'.rds',sep=""),
                                         fixedfold = fixedfold, n.var = nvar, samples.per.cond = s, n.diffexp = nde,
-                                        fraction.upregulated = 0.67, dispType = disp.Type, mode = mode, dataset.parameters = dataset.parameters)
+                                        fraction.upregulated = 0.67, dispType = disp.Type, mode = mode, RO.prop=RO.prop, dataset.parameters = dataset.parameters)
               }else{
                 for(frac in fraction.upregulated){
                   SyntheticDataSimulation(simul.data=simul.data, dataset = paste(working.dir,datahead, nde, "DE_",s,"spc_upFrac_",frac,"_rep_",i,'.rds',sep=""),
                                           fixedfold=fixedfold, n.var=nvar, samples.per.cond=s, n.diffexp=nde,
-                                          fraction.upregulated=frac, dispType=disp.Type, mode=mode, dataset.parameters=dataset.parameters)
+                                          fraction.upregulated=frac, dispType=disp.Type, mode=mode, RO.prop=RO.prop, dataset.parameters=dataset.parameters)
                 }
               }
             }
