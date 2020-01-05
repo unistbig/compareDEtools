@@ -57,7 +57,8 @@ select_color = function(method_color)
 #' @param figure.dir Figure save location
 #' @param fixedfold A logical indicating whether analyzed dataset used random fold changes following exponential distribution or fixed fold change values. Possible values are TRUE or FALSE. If fixedfold is TRUE, fraction.upregulated is automatically fixed to 0.67.
 #' @param simul.data Type of dataset (e.g. KIRC, Bottomly, mBdK and mKdB)
-#' @param rep An integer specifying iterations DE analysis methods run for each condition.
+#' @param rep.start An integer specifying start number of replication. Default is 1.
+#' @param rep.end An integer specifying iterations DE analysis methods run for each condition from \code{rep.start}.
 #' @param nsample An integer vector indicating number of samples in each sample group.
 #' @param nvar An integer indicating how many genes are in the analyzed dataset.
 #' @param nDE An integer vector indicating how many DE genes are in the analyzed dataset.
@@ -72,7 +73,7 @@ select_color = function(method_color)
 #' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn','PoissonSeq','SAMseq')
 #' @export
-performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data, rep, nsample, nvar, nDE, fraction.upregulated, disp.Type, mode, rowType, AnalysisMethods){
+performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data, rep.start=1, rep.end, nsample, nvar, nDE, fraction.upregulated, disp.Type, mode, rowType, AnalysisMethods){
 
 
   if(length(simul.data)!=1){stop('simul.data must have one element.')}
@@ -107,7 +108,7 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
           tpr_temp=c()
           tfdr_temp=c()
           auc_temp=c()
-          for(i in 1:rep)
+          for(i in rep.start:rep.end)
           {
             if(fixedfold){
               fileName = paste(working.dir,simul.data,'_', test.cond,'_',nde,'DE_',s,'spc_fixedfold_upFrac_',prop,'_rep_',i,"_",tools2,'.rds',sep='')
@@ -230,7 +231,8 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
 #' @param working.dir Input file location
 #' @param figure.dir Figure save location
 #' @param simul.data A character parameter indicating which given dataset analyzed dataset is based on. ‘KIRC’, ‘Bottomly’, ‘mBdK’ and ‘mKdB’ are available.
-#' @param rep An integer specifying iterations DE analysis methods run for each condition.
+#' @param rep.start An integer specifying start number of replication. Default is 1.
+#' @param rep.end An integer specifying iterations DE analysis methods run for each condition from \code{rep.start}.
 #' @param nsample An integer vector indicating number of samples in each sample group.
 #' @param disp.Type A vector indicating how is the dispersion parameter assumed to be for each sample group in the analzyed dataset. Possible values are 'same' and 'different'.
 #' @param modes A character specifying a test condition used for analyzed dataset.
@@ -241,7 +243,7 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
 #' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
 #' @export
-fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsample, disp.Type, modes, AnalysisMethods){
+fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep.start=1, rep.end, nsample, disp.Type, modes, AnalysisMethods){
 
   if(length(simul.data)!=1){stop('simul.data must have one element.')}
   if(length(disp.Type)!=1){stop('disp.Type must have one element.')}
@@ -258,7 +260,7 @@ fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsampl
       {
         tools2=select_tool((tools))
         fpc_temp=c()
-        for(i in 1:rep)
+        for(i in rep.start:rep.end)
         {
 
           if(disp.Type=='same'){
@@ -341,13 +343,14 @@ fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep, nsampl
 #' @param working.dir Input file location
 #' @param figure.dir Figure save location
 #' @param simul.data A character parameter indicating which given dataset analyzed dataset is based on. ‘KIRC’, ‘Bottomly’ and ‘SEQC’ are available.
-#' @param rep An integer specifying iterations DE analysis methods run for each condition.
+#' @param rep.start An integer specifying start number of replication. Default is 1.
+#' @param rep.end An integer specifying iterations DE analysis methods run for each condition from \code{rep.start}.
 #' @param nsample An integer vector indicating number of samples in each sample group.
 #' @param rowType A character vector indicating which results are shown in performance plot. Combination of DetectedDE and FPC. (e.g. c('DetectedDE','FP.count')) If simul.data is 'SEQC', only combination of 'AUC', 'TPR' and 'trueFDR' is available.
 #' @param AnalysisMethods A character vector specifying DE methods used for the analysis.
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
 #' @export
-performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep, nsample, rowType, AnalysisMethods){
+performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep.start=1, rep.end, nsample, rowType, AnalysisMethods){
 
   timer_start = Sys.time()
   if(length(simul.data)!=1){stop('simul.data must have one element.')}
@@ -368,7 +371,7 @@ performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep, n
         tpr_temp=c()
         tfdr_temp=c()
         auc_temp=c()
-        for(i in 1:rep)
+        for(i in rep.start:rep.end)
         {
 
           fileName = paste(working.dir,simul.data,'_',s,'spc_rep_',i,'_',tools2,'.rds',sep="")
@@ -468,7 +471,7 @@ performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep, n
         tools2=select_tool((tools))
         gene_num_temp=c()
         fpc_temp=c()
-        for(i in 1:rep)
+        for(i in rep.start:rep.end)
         {
           fileName = paste(working.dir,simul.data,'_',s,'spc_rep_',i,'_',tools2,'.rds',sep="")
           result = try(readRDS(fileName), silent=T)
@@ -501,7 +504,7 @@ performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep, n
           COLOR = append(COLOR, mColor)
         }
         if(!(simul.data == 'Bottomly' && s > 5)){
-          for(i in 1:rep)
+          for(i in rep.start:rep.end)
           {
             fileName = paste(working.dir,simul.data,'_',s,'spc_rep_',i,'_fpc_',tools2,'.rds',sep="")
             result = try(readRDS(fileName), silent=T)

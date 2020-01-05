@@ -2,7 +2,8 @@
 #' @param working.dir Input file location
 #' @param data.types A vector parameter indicating types of dataset (e.g. data.type = c(KIRC, Bottomly, mBdK and mKdB))
 #' @param fixedfold A logical indicating whether simulation data is made from fixed fold to imitate SEQC counts data. If fixedfold is TRUE, fraction of upregulated genes is automatically fixed to 0.67.
-#' @param rep An integer specifying how many datasets will be generated for each condition to run DE analysis methods.
+#' @param rep.start An integer specifying start number of replication. Default is 1.
+#' @param rep.end An integer specifying how many datasets will be generated from \code{rep.start} for each condition to run DE analysis methods.
 #' @param nsample An integer vector indicating how many samples are in each sample group.
 #' @param nvar An integer indicating the number of total gene in the synthetic data.
 #' @param nDE A vector indicating number of generated DE genes in the synthetic data.
@@ -14,7 +15,7 @@
 #' "OS"for adding outlier sample to each sample group.
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @export
-GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, rep, nsample, nvar, nDE, fraction.upregulated = 0.5 , disp.Types, modes){
+GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, rep.start=1, rep.end, nsample, nvar, nDE, fraction.upregulated = 0.5 , disp.Types, modes){
   dataset.parameters<-generateDatasetParameter()
   for(simul.data in data.types){
     for(mode in modes){
@@ -24,7 +25,7 @@ GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, 
         }else if(disp.Type=='different'){
           datahead=paste(simul.data,'_','DiffDisp_',mode ,'_', sep='')
         }
-        for(i in 1:rep){
+        for(i in rep.start:rep.end){
           for(s in nsample){
             for(nde in nDE){
               if(nde==0){
@@ -54,14 +55,15 @@ GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, 
 #' @param working.dir Input file location
 #' @param fpc A logical indicating whether simulation data is generated with samples from single sample group(e.g. normal) to calculate False positive counts. Possible values are TRUE and FALSE.
 #' @param data.types A vector indicating types of dataset (e.g. data.types = c(KIRC, Bottomly))
-#' @param rep An integer specifying how many datasets will be generated for each condition to run DE analysis methods.
+#' @param rep.start An integer specifying start number of replication. Default is 1.
+#' @param rep.end An integer specifying how many datasets will be generated from \code{rep.start} for each condition to run DE analysis methods.
 #' @param nsample A vector indicating number of samples in each sample group. Possible values can be 1~72 for KIRC, 1~10 for Bottomly and 1~5 for SEQC, maximum values decreased to 36 for KIRC and 5 for Bottomly if fpc is true.
 #' @export
 GenerateRealSimulation<-function(working.dir, fpc=FALSE, data.types, rep, nsample){
   dataset.parameters<-generateDatasetParameter()
   for(simul.data in data.types){
     datahead=simul.data
-    for(i in 1:rep){
+    for(i in rep.start:rep.end){
       for(s in nsample){
         if(simul.data=='SEQC'){
           RealDataSimulation(simul.data=simul.data, dataset=paste(working.dir,datahead,'_',s,'spc_rep_',i,'.rds',sep=""), samples.per.cond=s, fpc=fpc, dataset.parameters=dataset.parameters)
@@ -84,7 +86,8 @@ GenerateRealSimulation<-function(working.dir, fpc=FALSE, data.types, rep, nsampl
 #' @param fpc A logical indicating whether simulation data is made from a single sample group (e.g. normal) to calculate False positive counts. Only used for real data analysis.
 #' @param data.types A character vector indicating which given dataset our target dataset is based on. ‘KIRC’, ‘Bottomly’, ‘mBdK’ and ‘mKdB’ are available for synthetic datasets and ‘KIRC’, ‘Bottomly’ and ‘SEQC’ are available for real datasets.
 #' @param fixedfold A logical indicating whether simulation data is made from fixed fold to imitate SEQC counts data. Only applied if this simulation is synthetic data simulation.
-#' @param rep An integer vector indicating how many samples are in each dataset.
+#' @param rep.start An integer specifying start number of replication. Default is 1.
+#' @param rep.end An integer specifying how many datasets will be generated from \code{rep.start} for each condition to run DE analysis methods.
 #' @param nsample An integer vector indicating number of samples in each sample group.
 #' @param nDE An integer vector indicating number of generated DE genes in the synthetic data.
 #' @param fraction.upregulated A numeric vector specifying proportions of upregulated DE genes among total DE genes in the generated dataset. Default value is 0.5. (e.g. fraction.upregulated = c(0.5, 0.7 and 0.9)) This vector is available only if fixed fold is FALSE.
@@ -106,7 +109,7 @@ runSimulationAnalysis<-function(working.dir, output.dir, real=FALSE, fpc=FALSE, 
 
   if(real){
     for(simul.data in data.types){
-      for(i in 1:rep)
+      for(i in rep.start:rep.end)
       {
         for(s in nsample)
         {

@@ -5,9 +5,10 @@
 #' @param nsample An integer vector indicating number of samples in each sample group.
 #' @param topgenes An integer indicating number of top significant genes obtained from each methods to estimate rank correlation.
 #' @param AnalysisMethods A character vector specifying DE methods used for the analysis. (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pd','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','PoissonSeq','SAMseq')
-#' @param rep An integer specifying iterations DE analysis methods run for each condition.
+#' @param rep.start An integer specifying start number of replication. Default is 1.
+#' @param rep.end An integer specifying iterations DE analysis methods run for each condition from \code{rep.start}.
 #' @export
-correlation_heatmap<-function(working.dir, figure.dir ,simul.data, nsample, topgenes, AnalysisMethods, rep){
+correlation_heatmap<-function(working.dir, figure.dir ,simul.data, nsample, topgenes, AnalysisMethods, rep.start=1, rep.end){
 
   if(simul.data=='KIRC'){
     nvar=16621
@@ -17,7 +18,7 @@ correlation_heatmap<-function(working.dir, figure.dir ,simul.data, nsample, topg
   DEmethods<-unlist(sapply(AnalysisMethods,compareDEtools::select_tool),use.names = FALSE)
   whole_corr_matrix=array(rep(0,length(rep*length(AnalysisMethods)*length(AnalysisMethods))) ,dim=c(rep,length(AnalysisMethods),length(AnalysisMethods)))
 
-  for(k in 1:rep){
+  for(k in rep.start:rep.end){
     result_matrix=matrix(0,ncol=length(AnalysisMethods),nrow=nvar)
     rank_matrix=matrix(0,ncol=length(AnalysisMethods),nrow=nvar)
 
