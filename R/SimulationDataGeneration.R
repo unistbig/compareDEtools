@@ -154,7 +154,7 @@ generateDatasetParameter = function(){
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @param dataset.parameters A list containing estimated mean and dispersion parameters and filtered count from original count dataset.
 #' @export
-SyntheticDataSimulation = function(simul.data, dataset, fixedfold=FALSE, samples.per.cond, n.var, n.diffexp, fraction.upregulated, dispType, mode, dataset.parameters)
+SyntheticDataSimulation = function(simul.data, dataset, fixedfold=FALSE, samples.per.cond, n.var, n.diffexp, fraction.upregulated, dispType, mode, RO.prop=5, dataset.parameters)
 {
   # Generate simulation data
   if(mode != 'D' && mode!='S' && mode!='R' && mode!='OS' && mode!='DL'){stop('mode must be "D" (DE variation test), "S" (single outlier test) or "R" (random outlier test) or "OS" (dispersion outlier sample test) or "DL" (dispersion lowered test)')}
@@ -298,7 +298,7 @@ SyntheticDataSimulation = function(simul.data, dataset, fixedfold=FALSE, samples
   if(mode == "R")
   {
     RO = matrix(runif(n.var*2*s , min = 0, max = 100), nrow = n.var, ncol = 2*s)
-    index.outlier = which(RO<5)
+    index.outlier = which(RO<RO.prop)
     counts[index.outlier] = counts[index.outlier]*runif(n = length(index.outlier), min=5, max=10)
     counts = round(counts)
   }

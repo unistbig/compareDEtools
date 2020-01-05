@@ -207,9 +207,9 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
 
       gline = gbase
       if(fixedfold){
-        tt = paste(simul.data,' / ',disp.Type,' / SS = ',size,' / ',up,' / fixedfold',sep="")
+        tt = paste(simul.data,' / ',type,' / SS = ',size,' / ',up,' / fixedfold',sep="")
       }else{
-        tt = paste(simul.data,' / ',disp.Type,' / SS = ',size,' / ',up,sep="")
+        tt = paste(simul.data,' / ',type,' / SS = ',size,' / ',up,sep="")
       }
 
       tt=gsub(pattern = 'upDE', replacement = 'Bal', x = tt)
