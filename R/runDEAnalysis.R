@@ -59,7 +59,7 @@ GenerateSyntheticSimulation<-function(working.dir, data.types, fixedfold=FALSE, 
 #' @param rep.end An integer specifying how many datasets will be generated from \code{rep.start} for each condition to run DE analysis methods.
 #' @param nsample A vector indicating number of samples in each sample group. Possible values can be 1~72 for KIRC, 1~10 for Bottomly and 1~5 for SEQC, maximum values decreased to 36 for KIRC and 5 for Bottomly if fpc is true.
 #' @export
-GenerateRealSimulation<-function(working.dir, fpc=FALSE, data.types, rep, nsample){
+GenerateRealSimulation<-function(working.dir, fpc=FALSE, data.types, rep.start=1, rep.end, nsample){
   dataset.parameters<-generateDatasetParameter()
   for(simul.data in data.types){
     datahead=simul.data
@@ -101,7 +101,7 @@ GenerateRealSimulation<-function(working.dir, fpc=FALSE, data.types, rep, nsampl
 #' (e.g. 'edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn,'PoissonSeq','SAMseq')
 #' @param para A list parameter indicating the parameters to run each DE analysis methods. It contains lists corresponding each method and each list contain the parameters for each DE analysis methods. The analysis methods not in the para list will be run with default parameters. (e.g. para=list(ROTS=list(transformation=FALSE, normalize=FALSE)))
 #' @export
-runSimulationAnalysis<-function(working.dir, output.dir, real=FALSE, fpc=FALSE, data.types, fixedfold=FALSE, rep, nsample, nDE, fraction.upregulated, disp.Types, modes, AnalysisMethods, para=list()){
+runSimulationAnalysis<-function(working.dir, output.dir, real=FALSE, fpc=FALSE, data.types, fixedfold=FALSE, rep.start=1, rep.end, nsample, nDE, fraction.upregulated, disp.Types, modes, AnalysisMethods, para=list()){
 
   for(i in setdiff(AnalysisMethods, ls(para))){
     para[[i]]=list()
@@ -148,7 +148,7 @@ runSimulationAnalysis<-function(working.dir, output.dir, real=FALSE, fpc=FALSE, 
                      'sameDL'='DL_'
           )
           datahead=paste(simul.data,'_',out ,sep='')
-          for(i in 1:rep)
+          for(i in rep.start:rep.end)
           {
             for(s in nsample)
             {
