@@ -179,9 +179,8 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
   res$Color=factor(res$Color)
   res$nDE = paste(res$nDE, sep="")
   res2 = melt(res, measure.vars=c("AUC","TPR","trueFDR"))
-  for(nde in NDE){
-    nDE_Factor = append(nDE_Factor, setdiff(paste("pDE = ",round(nDE*100/nvar,2),"%",sep=""),nDE_Factor))
-  }
+
+  nDE_Factor=paste("pDE = ",round(nDE*100/nvar,2),"%",sep="")
 
   res2$nDE = factor(res$nDE, levels=nDE_Factor)
   default_order=c('edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn','PoissonSeq','SAMseq')
@@ -427,9 +426,9 @@ performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep.st
     res$Color=factor(res$Color)
     res$nDE = paste(res$nDE, sep="")
     res2 = melt(res, measure.vars=c("AUC","TPR","trueFDR"))
-    for(nde in NDE){
-      nDE_Factor = append(nDE_Factor, setdiff(paste("pDE = ",round(nDE*100/nvar,2),"%",sep=""),nDE_Factor))
-    }
+
+    nDE_Factor = paste("pDE = ",round(nde*100/nvar,2),"%",sep="")
+
 
     res2$nDE = factor(res$nDE, levels=nDE_Factor)
     default_order=c('edgeR','edgeR.ql','edgeR.rb','DESeq.pc','DESeq2','voom.tmm','voom.qn','voom.sw','ROTS','BaySeq','BaySeq.qn','PoissonSeq','SAMseq')
