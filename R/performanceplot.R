@@ -124,7 +124,7 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
             if(tools == "PoissonSeq"){rownames(result)=as.character(result$Genename)}
 
 
-            ts = append(ts, setdiff(tools2, ts))
+            ts = append(ts, setdiff(tools, ts))
             mColor = select_color(tools)
             tc = append(tc, setdiff(mColor, tc))
 
@@ -277,7 +277,7 @@ fpc_performance_plot = function(working.dir, figure.dir, simul.data, rep.start=1
 
 
 
-          ts = append(ts, setdiff(tools2, ts))
+          ts = append(ts, setdiff(tools, ts))
           mColor = select_color(tools)
           tc = append(tc, setdiff(mColor, tc))
 
@@ -383,7 +383,7 @@ performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep.st
           if(tools == "PoissonSeq"){rownames(result)=as.character(result$Genename)}
 
 
-          ts = append(ts, setdiff(tools2, ts))
+          ts = append(ts, setdiff(tools, ts))
           mColor = select_color(tools)
           tc = append(tc, setdiff(mColor, tc))
 
