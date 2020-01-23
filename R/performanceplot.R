@@ -406,8 +406,8 @@ performance_realdata_plot = function(working.dir, figure.dir, simul.data, rep.st
           pred = prediction(predictions = 1-FDR, labels = label)
 
 
-          tpr_temp = append(tpr_temp, length(which(FDR[indexTrue]<0.1))/length(FDR[indexTrue]))
-          tfdr_temp = append(tfdr_temp, length(setdiff(which(FDR<0.1),indexTrue))/length(which(FDR<0.1)))
+          tpr_temp = append(tpr_temp, length(which(FDR[c(1:length(indexTrue))]<0.1))/length(FDR[c(1:length(indexTrue))]))
+          tfdr_temp = append(tfdr_temp, length(setdiff(which(FDR<0.1),c(1:length(indexTrue))))/length(which(FDR<0.1)))
 
           auc_temp = append(auc_temp, performance(pred, 'auc')@y.values[[1]][1])
           REPEAT = append(REPEAT,i)
