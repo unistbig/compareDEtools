@@ -44,16 +44,18 @@ ROTS.createRmd <- function(data.path, result.path, codefile, normalize=TRUE, tra
   writeLines(c("is.valid <- check_compData(cdata)",
                "if (!(is.valid == TRUE)) stop('Not a valid compData object.')"), codefile)
   if(normalize&&transformation){
-    log=TRUE
-    writeLines(c("nf <- edgeR::calcNormFactors(count.matrix(cdata), method = 'TMM' )",
-                 "voom.data <- limma::voom(count.matrix(cdata), design = model.matrix(~factor(sample.annotations(cdata)$condition)), lib.size = colSums(count.matrix(cdata)) * nf)",
-                 "Exp <- voom.data$E"), codefile)
-  }else if(normalize && !transformation){
-    writeLines(c("edgeR.dgelist <- edgeR::DGEList(counts = count.matrix(cdata), group = factor(sample.annotations(cdata)$condition))",
-                 "edgeR.dgelist <- edgeR::calcNormFactors(edgeR.dgelist, method = 'TMM')",
-                 "Factors <- edgeR.dgelist$samples$lib.size * edgeR.dgelist$samples$norm.factors",
-                 "Exp <- t(t(edgeR.dgelist$counts)/Factors) * mean(Factors)"), codefile)
-  }else if(!(normalize||transformation)){
+    if(transformation){
+      log=TRUE
+      writeLines(c("nf <- edgeR::calcNormFactors(count.matrix(cdata), method = 'TMM' )",
+                   "voom.data <- limma::voom(count.matrix(cdata), design = model.matrix(~factor(sample.annotations(cdata)$condition)), lib.size = colSums(count.matrix(cdata)) * nf)",
+                   "Exp <- voom.data$E"), codefile)
+    }else{
+      writeLines(c("edgeR.dgelist <- edgeR::DGEList(counts = count.matrix(cdata), group = factor(sample.annotations(cdata)$condition))",
+                   "edgeR.dgelist <- edgeR::calcNormFactors(edgeR.dgelist, method = 'TMM')",
+                   "Factors <- edgeR.dgelist$samples$lib.size * edgeR.dgelist$samples$norm.factors",
+                   "Exp <- t(t(edgeR.dgelist$counts)/Factors) * mean(Factors)"), codefile)
+    }
+  }else{
     writeLines('Exp <- count.matrix(cdata)', codefile)
   }
 
