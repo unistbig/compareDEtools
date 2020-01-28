@@ -54,7 +54,7 @@ ROTS.createRmd <- function(data.path, result.path, codefile, normalize=TRUE, tra
                  "Factors <- edgeR.dgelist$samples$lib.size * edgeR.dgelist$samples$norm.factors",
                  "Exp <- t(t(edgeR.dgelist$counts)/Factors) * mean(Factors)"), codefile)
   }else if(!(normalize||transformation)){
-    writeLines('Exp <- count.matrix(cdata)')
+    writeLines('Exp <- count.matrix(cdata)', codefile)
   }
 
 
