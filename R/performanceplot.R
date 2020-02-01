@@ -157,7 +157,7 @@ performance_plot = function(working.dir, figure.dir, fixedfold=FALSE, simul.data
             indexFalse = which(GeneName%in%FalseGene)
             tpr_temp = append(tpr_temp, length(which(FDR[indexTrue]<0.1))/length(FDR[indexTrue]))
             if(length(which(FDR<0.1))<=5){
-              tfdr_temp=append(tfdr_temp, 0/0)
+              tfdr_temp=append(tfdr_temp, NaN)
             }else{
               tfdr_temp = append(tfdr_temp, length(setdiff(which(FDR<0.1),indexTrue))/length(which(FDR<0.1)))
             }
