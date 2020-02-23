@@ -155,7 +155,7 @@ generateDatasetParameter = function(){
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @param dataset.parameters A list containing estimated mean and dispersion parameters and filtered count from original count dataset.
 #' @export
-SyntheticDataSimulation = function(simul.data, dataset, fixedfold=FALSE, samples.per.cond, n.var, n.diffexp, fraction.upregulated, dispType, mode, RO.prop=5, dataset.parameters)
+SyntheticDataSimulation = function(simul.data, dataset, random_sampling=FALSE, fixedfold=FALSE, samples.per.cond, n.var, n.diffexp, fraction.upregulated, dispType, mode, RO.prop=5, dataset.parameters)
 {
   # Generate simulation data
   if(mode != 'D' && mode!='S' && mode!='R' && mode!='OS' && mode!='DL'){stop('mode must be "D" (DE variation test), "S" (single outlier test) or "R" (random outlier test) or "OS" (dispersion outlier sample test) or "DL" (dispersion lowered test)')}
@@ -286,6 +286,14 @@ SyntheticDataSimulation = function(simul.data, dataset, fixedfold=FALSE, samples
       counts[i,1:s] = rnbinom(s, 22.5/sample.disp2[i], mu = sample.mean2[i])
       counts[i,(s+1):(2*s)] = rnbinom(s, 22.5/sample.disp1[i], mu = sample.mean1[i])
     }
+  }else if(random_sampling==TRUE){
+    for(i in 1:n.var)
+    {
+      rand1=runif(s,min=0.7,max=1.3)
+      rand2=runif(s,min=0.7,max=1.3)
+      counts[i,1:s] = sapply(rand1, FUN = function(x) rnbinom(1, 1/sample.disp2[i], mu = sample.mean2[i]*x))
+      counts[i,(s+1):(2*s)] = sapply(rand2, FUN = function(x) rnbinom(1, 1/sample.disp2[i], mu = sample.mean2[i]*x))
+    }
   }else{
     for(i in 1:n.var)
     {
@@ -293,6 +301,8 @@ SyntheticDataSimulation = function(simul.data, dataset, fixedfold=FALSE, samples
       counts[i,(s+1):(2*s)] = rnbinom(s, 1/sample.disp1[i], mu = sample.mean1[i])
     }
   }
+
+
 
 
   ### Random Outlier
