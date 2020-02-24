@@ -292,7 +292,7 @@ SyntheticDataSimulation = function(simul.data, dataset, random_sampling=FALSE, f
     for(i in 1:n.var)
     {
       counts[i,1:s] = sapply(rand1, FUN = function(x) rnbinom(1, 1/sample.disp2[i], mu = sample.mean2[i]*x))
-      counts[i,(s+1):(2*s)] = sapply(rand2, FUN = function(x) rnbinom(1, 1/sample.disp2[i], mu = sample.mean2[i]*x))
+      counts[i,(s+1):(2*s)] = sapply(rand2, FUN = function(x) rnbinom(1, 1/sample.disp1[i], mu = sample.mean1[i]*x))
     }
   }else{
     for(i in 1:n.var)
