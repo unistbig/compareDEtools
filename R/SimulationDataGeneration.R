@@ -286,7 +286,7 @@ SyntheticDataSimulation = function(simul.data, dataset, random_sampling=FALSE, L
       counts[i,1:s] = rnbinom(s, 22.5/sample.disp2[i], mu = sample.mean2[i])
       counts[i,(s+1):(2*s)] = rnbinom(s, 22.5/sample.disp1[i], mu = sample.mean1[i])
     }
-  }else if(Large_sample=TRUE){
+  }else if(Large_sample==TRUE){
     for(i in 1:n.var)
     {
       counts[i,1:round(s/3)]=rnbinom(round(s/3), 1/(5*sample.disp2[i]),mu=sample.mean2[i])
@@ -294,8 +294,6 @@ SyntheticDataSimulation = function(simul.data, dataset, random_sampling=FALSE, L
       counts[i,(s+1):(s+round(s/3))] = rnbinom(round(s/3), 1/(5*sample.disp1[i]), mu = sample.mean1[i])
       counts[i,(s+round(s/3)+1):(2*s)] = rnbinom((s-round(s/3)), 1/sample.disp1[i], mu = sample.mean1[i])
     }
-    n.var=200
-    s=10
     RO = matrix(runif(n.var*2*s , min = 0, max = 100), nrow = n.var, ncol = 2*s)
     index.outlier = which(RO<3)
     index.outlier<-index.outlier[c(which(index.outlier>n.var*(round(s/3))&index.outlier<=n.var*s),which(index.outlier>n.var*(s+round(s/3))&index.outlier<=n.var*2*s))]
