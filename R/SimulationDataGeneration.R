@@ -300,7 +300,7 @@ SyntheticDataSimulation = function(simul.data, dataset, random_sampling=FALSE, L
     counts[index.outlier] = counts[index.outlier]*runif(n = length(index.outlier), min=5, max=10)
     counts = round(counts)
   }else{
-    if(random_sampling=TRUE){
+    if(random_sampling==TRUE){
       rand1=runif(s,min=0.7,max=1.3)
       rand2=runif(s,min=0.7,max=1.3)
     }else{
