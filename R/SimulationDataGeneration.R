@@ -155,7 +155,7 @@ generateDatasetParameter = function(){
 #' "DL" for decreasing KIRC simulation dispersion 22.5 times (similar to SEQC data dispersion) to compare with SEQC data.
 #' @param dataset.parameters A list containing estimated mean and dispersion parameters and filtered count from original count dataset.
 #' @export
-SyntheticDataSimulation = function(simul.data, dataset, random_sampling=FALSE, fixedfold=FALSE, samples.per.cond, n.var, n.diffexp, fraction.upregulated, dispType, mode, RO.prop=5, dataset.parameters)
+SyntheticDataSimulation = function(simul.data, dataset, random_sampling=FALSE, Large_sample=FALSE, fixedfold=FALSE, samples.per.cond, n.var, n.diffexp, fraction.upregulated, dispType, mode, RO.prop=5, dataset.parameters)
 {
   # Generate simulation data
   if(mode != 'D' && mode!='S' && mode!='R' && mode!='OS' && mode!='DL'){stop('mode must be "D" (DE variation test), "S" (single outlier test) or "R" (random outlier test) or "OS" (dispersion outlier sample test) or "DL" (dispersion lowered test)')}
@@ -286,19 +286,33 @@ SyntheticDataSimulation = function(simul.data, dataset, random_sampling=FALSE, f
       counts[i,1:s] = rnbinom(s, 22.5/sample.disp2[i], mu = sample.mean2[i])
       counts[i,(s+1):(2*s)] = rnbinom(s, 22.5/sample.disp1[i], mu = sample.mean1[i])
     }
-  }else if(random_sampling==TRUE){
-    rand1=runif(s,min=0.7,max=1.3)
-    rand2=runif(s,min=0.7,max=1.3)
+  }else if(Large_sample=TRUE){
     for(i in 1:n.var)
     {
-      counts[i,1:s] = sapply(rand1, FUN = function(x) rnbinom(1, 1/sample.disp2[i], mu = sample.mean2[i]*x))
-      counts[i,(s+1):(2*s)] = sapply(rand2, FUN = function(x) rnbinom(1, 1/sample.disp1[i], mu = sample.mean1[i]*x))
+      counts[i,1:round(s/3)]=rnbinom(round(s/3), 1/(5*sample.disp2[i]),mu=sample.mean2[i])
+      counts[i,(round(s/3)+1):s] = rnbinom((s-round(s/3)), 1/sample.disp2[i], mu = sample.mean2[i])
+      counts[i,(s+1):(s+round(s/3))] = rnbinom(round(s/3), 1/(5*sample.disp1[i]), mu = sample.mean1[i])
+      counts[i,(s+round(s/3)+1):(2*s)] = rnbinom((s-round(s/3)), 1/sample.disp1[i], mu = sample.mean1[i])
     }
+    n.var=200
+    s=10
+    RO = matrix(runif(n.var*2*s , min = 0, max = 100), nrow = n.var, ncol = 2*s)
+    index.outlier = which(RO<3)
+    index.outlier<-index.outlier[c(which(index.outlier>n.var*(round(s/3))&index.outlier<=n.var*s),which(index.outlier>n.var*(s+round(s/3))&index.outlier<=n.var*2*s))]
+    counts[index.outlier] = counts[index.outlier]*runif(n = length(index.outlier), min=5, max=10)
+    counts = round(counts)
   }else{
+    if(random_sampling=TRUE){
+      rand1=runif(s,min=0.7,max=1.3)
+      rand2=runif(s,min=0.7,max=1.3)
+    }else{
+      rand1=rep(1,s)
+      rand2=rep(1,s)
+    }
     for(i in 1:n.var)
     {
-      counts[i,1:s] = rnbinom(s, 1/sample.disp2[i], mu = sample.mean2[i])
-      counts[i,(s+1):(2*s)] = rnbinom(s, 1/sample.disp1[i], mu = sample.mean1[i])
+      counts[i,1:s] = sapply(rand1, FUN = function(x) rnbinom(1, 1/sample.disp2[i], mu=sample.mean2[i]*x))
+      counts[i,(s+1):(2*s)] = sapply(rand2, FUN = function(x) rnbinom(1, 1/sample.disp1[i], mu=sample.mean1[i]*x))
     }
   }
 
